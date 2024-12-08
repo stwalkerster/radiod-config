@@ -21,6 +21,7 @@ services:
       - ./media/jingles:/var/jingles:ro
       - music:/var/music:ro
       - ./media/playlists:/var/playlists:ro
+      - ./media/music-local:/var/music-local:ro
     ports:
       - 8080:8080
     command: ['/script.liq']
@@ -28,6 +29,9 @@ services:
       internal:
     secrets:
       - stream-credentials
+    environment:
+      STREAM_NAME: radio
+      STREAM_HOST: icecast
 
   silence:
     image: git.scimonshouse.net/docker/ffmpeg
@@ -39,6 +43,9 @@ services:
       internal:
     secrets:
       - stream-credentials
+    environment:
+      STREAM_NAME: fallback
+      STREAM_HOST: icecast
 
   sidecar:
     image: ghcr.io/stwalkerster/radiod:sidecar

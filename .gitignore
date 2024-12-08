@@ -6,3 +6,4 @@ logs/*
 media/music/*
 bot.yml
 sidecar.yml
+docker-compose.override.yml

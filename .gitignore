@@ -1,3 +1,5 @@
 *.pem
 *.pfx
 stream-credentials.txt
+aws-config
+logs/*

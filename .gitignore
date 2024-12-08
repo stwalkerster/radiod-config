@@ -1,0 +1,3 @@
+*.pem
+*.pfx
+stream-credentials.txt

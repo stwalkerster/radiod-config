@@ -1,0 +1,82 @@
+services:
+  icecast:
+    image: pltnk/icecast2
+    restart: "unless-stopped"
+    volumes:
+      - ./icecast.xml:/etc/icecast2/icecast.xml
+      - ./bundle.pem:/usr/share/icecast2/icecast.pem
+      - ./logs:/var/log/icecast2
+    networks:
+      internal:
+    ports:
+      - 8000:8000
+      - 8443:8443
+
+  liquidsoap:
+    image: ghcr.io/stwalkerster/radiod-liquidsoap-docker:0.5
+    restart: "unless-stopped"
+    volumes:
+      - ./script.liq:/script.liq
+      - ./music:/music
+    ports:
+      - 8080:8080
+    command: ['/script.liq']
+    networks:
+      internal:
+    secrets:
+      - stream-credentials
+
+  silence:
+    image: git.scimonshouse.net/docker/ffmpeg
+    restart: "unless-stopped"
+    volumes:
+      - ./silence.sh:/silence.sh:ro
+    command: ['/silence.sh']
+    networks:
+      internal:
+    secrets:
+      - stream-credentials
+
+  sidecar:
+    image: ghcr.io/stwalkerster/radiod:sidecar
+    restart: "unless-stopped"
+    volumes:
+      - ./sidecar.yml:/opt/config.yml
+    networks:
+      internal:
+      ingress:
+        aliases:
+          - stream-sidecar
+
+  bot:
+    image: ghcr.io/stwalkerster/radiod:bot
+    restart: "unless-stopped"
+    volumes:
+      - ./aws-config:/opt/.aws/config
+      - ./bot.yml:/opt/config.yml
+      - ./radiod.pfx:/opt/radiod.pfx
+    networks:
+      internal:
+      ingress:
+        aliases:
+          - stream-bot
+    secrets:
+      - aws-role-cert
+      - aws-role-ca
+      - aws-role-key
+
+networks:
+  internal:
+  ingress:
+    external: true
+    name: internet-ingress
+
+secrets:
+  stream-credentials:
+    file: stream-credentials.txt
+  aws-role-cert:
+    file: certificate.pem
+  aws-role-ca:
+    file: issuing_ca.pem
+  aws-role-key:
+    file: private_key.pem

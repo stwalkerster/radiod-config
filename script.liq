@@ -2,10 +2,12 @@
 
 # initial setup
 log.stdout.set(true)
-enable_replaygain_metadata()
 stream_password = environment.get("STREAM_PASSWORD")
 stream_name = environment.get("STREAM_NAME")
 stream_host = environment.get("STREAM_HOST")
+
+# Disabled due to rollback to 2.2.5
+# enable_replaygain_metadata()
 
 # yt-dlp configuration
 settings.protocol.youtube_dl.path.set("/usr/bin/yt-dlp")
@@ -21,18 +23,18 @@ settings.harbor.bind_addrs.set(["0.0.0.0"])
 # media configuration
 default = single("/var/music-local/partypioneers.mp3")
 
-shoutouts = amplify(1.5, amplify(1., override="replaygain_track_gain", request.queue(id="shoutouts")))
-requests = amplify(1., override="replaygain_track_gain", request.queue(id="request",timeout=120.))
+shoutouts = amplify(1.5, request.queue(id="shoutouts"))
+requests = request.queue(id="request",timeout=120.)
 
 # FYI: `delay(n, ...)`  will wait for n seconds after the **end** of the track
 
-jingles = delay(300., amplify(1., override="replaygain_track_gain", playlist("/var/jingles/jingles.m3u")))
+jingles = delay(300., playlist("/var/jingles/jingles.m3u", prefix="annotate:title=\"This is Radio LizardNet\",artist=\"Radio LizardNet\":"))
 
-main_playlist = amplify(1., override="replaygain_track_gain", playlist("/var/playlists/main.m3u"))
-specials_playlist = delay(3600., amplify(1., override="replaygain_track_gain", playlist("/var/playlists/specials.m3u")))
-alternate_playlist = delay(120., amplify(1., override="replaygain_track_gain", playlist("/var/playlists/edm.m3u")))
+main_playlist = playlist("/var/playlists/main.m3u")
+specials_playlist = delay(3600., playlist("/var/playlists/specials.m3u"))
+alternate_playlist = delay(120., playlist("/var/playlists/edm.m3u"))
 
-christmas = delay(15., amplify(1., override="replaygain_track_gain", playlist("/var/playlists/lrchristmas.m3u")))
+christmas = delay(120., playlist("/var/playlists/lrchristmas.m3u"))
 
 radio = fallback([shoutouts, jingles, requests, christmas, specials_playlist, alternate_playlist, main_playlist, default])
 

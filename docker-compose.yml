@@ -19,7 +19,7 @@ services:
       - ./script.liq:/script.liq
       - ./music:/music
       - ./media/jingles:/var/jingles:ro
-      - ./media/music:/var/music:ro
+      - music:/var/music:ro
       - ./media/playlists:/var/playlists:ro
     ports:
       - 8080:8080
@@ -67,6 +67,13 @@ services:
       - aws-role-cert
       - aws-role-ca
       - aws-role-key
+
+volumes:
+  music:
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.32.250,nolock,soft,ro"
+      device: ":/srv/samba/music/share"
 
 networks:
   internal:

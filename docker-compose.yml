@@ -75,7 +75,7 @@ services:
       - aws-role-key
 
   metadata:
-    image: metadata
+    image: ghcr.io/stwalkerster/radiod:metadata
     volumes:
       - ./logs:/var/log/icecast2:ro
       - ./metadata.yml:/opt/config.yml

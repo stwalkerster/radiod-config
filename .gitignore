@@ -4,6 +4,7 @@ stream-credentials.txt
 aws-config
 logs/*
 media/music/*
+media/playlists/*
 media/music-local/*
 bot.yml
 sidecar.yml

@@ -8,4 +8,6 @@ media/playlists/*
 media/music-local/*
 bot.yml
 sidecar.yml
+metadata.yml
+icecast.xml
 docker-compose.override.yml

@@ -74,6 +74,17 @@ services:
       - aws-role-ca
       - aws-role-key
 
+  metadata:
+    image: metadata
+    volumes:
+      - ./logs:/var/log/icecast2:ro
+      - ./metadata.yml:/opt/config.yml
+    networks:
+      internal:
+      ingress:
+        aliases:
+          - stream-metadata
+
 volumes:
   music:
     driver_opts:

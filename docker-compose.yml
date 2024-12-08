@@ -17,7 +17,6 @@ services:
     restart: "unless-stopped"
     volumes:
       - ./script.liq:/script.liq
-      - ./music:/music
       - ./media/jingles:/var/jingles:ro
       - music:/var/music:ro
       - ./media/playlists:/var/playlists:ro

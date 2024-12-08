@@ -18,6 +18,9 @@ services:
     volumes:
       - ./script.liq:/script.liq
       - ./music:/music
+      - ./media/jingles:/var/jingles:ro
+      - ./media/music:/var/music:ro
+      - ./media/playlists:/var/playlists:ro
     ports:
       - 8080:8080
     command: ['/script.liq']

@@ -24,7 +24,7 @@ requests = amplify(1., override="replaygain_track_gain", request.queue(id="reque
 
 # FYI: `delay(n, ...)`  will wait for n seconds after the **end** of the track
 
-jingles = delay(300., amplify(1., override="replaygain_track_gain", playlist("/music/jingle/jingles.m3u8")))
+jingles = delay(300., amplify(1., override="replaygain_track_gain", playlist("/var/jingles/jingles.m3u")))
 
 main_playlist = amplify(1., override="replaygain_track_gain", playlist("/music/tss.m3u"))
 specials_playlist = delay(3600., amplify(1., override="replaygain_track_gain", playlist("/music/finland/finland.m3u")))

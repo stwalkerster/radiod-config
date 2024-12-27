@@ -34,9 +34,7 @@ main_playlist = playlist("/var/playlists/main.m3u")
 specials_playlist = delay(3600., playlist("/var/playlists/specials.m3u"))
 alternate_playlist = delay(120., playlist("/var/playlists/edm.m3u"))
 
-christmas = delay(120., playlist("/var/playlists/lrchristmas.m3u"))
-
-radio = fallback([shoutouts, jingles, requests, christmas, specials_playlist, alternate_playlist, main_playlist, default])
+radio = fallback([shoutouts, jingles, requests, specials_playlist, alternate_playlist, main_playlist, default])
 
 livestream = input.harbor("live.ogg", port=8080, password=stream_password)
 

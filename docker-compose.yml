@@ -6,6 +6,7 @@ services:
       - ./icecast.xml:/etc/icecast2/icecast.xml
       - ./bundle.pem:/usr/share/icecast2/icecast.pem
       - ./logs:/var/log/icecast2
+      - ./intros:/usr/share/icecast2/web/intros
     networks:
       internal:
     ports:

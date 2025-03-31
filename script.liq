@@ -31,7 +31,7 @@ requests = request.queue(id="request",timeout=120.)
 jingles = delay(300., playlist("/var/jingles/jingles.m3u", prefix="annotate:title=\"This is Radio LizardNet\",artist=\"Radio LizardNet\":"))
 
 main_playlist = playlist("/var/playlists/main.m3u")
-specials_playlist = delay(3600., playlist("/var/playlists/specials.m3u"))
+specials_playlist = delay(900., playlist("/var/playlists/specials.m3u"))
 alternate_playlist = delay(120., playlist("/var/playlists/edm.m3u"))
 
 radio = fallback([shoutouts, jingles, requests, specials_playlist, alternate_playlist, main_playlist, default])

@@ -68,4 +68,4 @@ station_radio = add(
 output.icecast(%mp3,
   host=stream_host, port=8000,
   password=stream_password,
-  mount="stationradio", public=false, full)
+  mount="stationradio", public=false, station_radio)

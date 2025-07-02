@@ -10,7 +10,7 @@ stream_host = environment.get("STREAM_HOST")
 # enable_replaygain_metadata()
 
 def announcements_protocol(~rlog,~maxtime,arg) = 
-  [process.uri(extname="mp3", "/opt/announcements-generator/LizardNetRadio.RailAnnouncer /opt/announcements-generator/data.yml $(output)")]
+  [process.uri(extname="mp3", "/opt/announcement-generator/LizardNetRadio.RailAnnouncer /opt/announcement-generator/data.yml $(output)")]
 end
 protocol.add("railannounce", announcements_protocol)
 

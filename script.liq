@@ -61,7 +61,7 @@ announcements = ladspa.freeverb3(announcements, wet_level=0.3, dry_level=0.6, ro
 
 station_radio = add(
     [chillout_playlist, announcements],
-    weights = [0.6, 1.],  # volume levels for aria and announcements
+    weights = [0.4, 1.],  # volume levels for aria and announcements
     normalize = false  # disable normalization to keep original volume levels
 )
 

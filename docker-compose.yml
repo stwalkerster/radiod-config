@@ -22,6 +22,8 @@ services:
       - music:/var/music:ro
       - ./media/playlists:/var/playlists:ro
       - ./media/music-local:/var/music-local:ro
+      - ./media/scotrail/announcements:/var/announcements:ro
+      - ./announcement-generator:/opt/announcement-generator:ro
     ports:
       - 8080:8080
     command: ['/script.liq']
@@ -46,6 +48,8 @@ services:
     environment:
       STREAM_NAME: fallback
       STREAM_HOST: icecast
+    logging:
+      driver: none
 
   sidecar:
     image: ghcr.io/stwalkerster/radiod:sidecar

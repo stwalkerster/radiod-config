@@ -14,7 +14,7 @@ services:
       - 8443:8443
 
   liquidsoap:
-    image: ghcr.io/stwalkerster/radiod-liquidsoap-docker:0.6
+    image: ghcr.io/stwalkerster/radiod-liquidsoap-docker:0.7
     restart: "unless-stopped"
     volumes:
       - ./script.liq:/script.liq

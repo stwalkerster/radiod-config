@@ -41,6 +41,41 @@ main_playlist = playlist("/var/playlists/main.m3u")
 specials_playlist = delay(900., playlist("/var/playlists/specials.m3u"))
 alternate_playlist = delay(120., playlist("/var/playlists/edm.m3u"))
 
+
+tss_playlist = playlist("/var/playlists/lrtss.m3u")
+seventies_playlist = playlist("/var/playlists/lr70s80s.m3u")
+nineties_playlist = playlist("/var/playlists/lr90s00s.m3u")
+modern_playlist = playlist("/var/playlists/lrmodernhits.m3u")
+soundtracks_playlist = playlist("/var/playlists/lrsoundtrack.m3u")
+esc_playlist = playlist("/var/playlists/lresc.m3u")
+
+main_radio = switch([
+  ({ 00h-01h }, tss_playlist),
+  ({ 01h-02h }, seventies_playlist),
+  ({ 02h-03h }, nineties_playlist),
+  ({ 03h-04h }, modern_playlist),
+  ({ 04h-05h }, soundtracks_playlist),
+  ({ 05h-06h }, esc_playlist),
+  ({ 06h-07h }, tss_playlist),
+  ({ 07h-08h }, seventies_playlist),
+  ({ 08h-09h }, nineties_playlist),
+  ({ 09h-10h }, modern_playlist),
+  ({ 10h-11h }, soundtracks_playlist),
+  ({ 11h-12h }, esc_playlist),
+  ({ 12h-13h }, tss_playlist),
+  ({ 13h-14h }, seventies_playlist),
+  ({ 14h-15h }, nineties_playlist),
+  ({ 15h-16h }, modern_playlist),
+  ({ 16h-17h }, soundtracks_playlist),
+  ({ 17h-18h }, esc_playlist),
+  ({ 18h-19h }, tss_playlist),
+  ({ 19h-20h }, seventies_playlist),
+  ({ 20h-21h }, nineties_playlist),
+  ({ 21h-22h }, modern_playlist),
+  ({ 22h-23h }, soundtracks_playlist),
+  ({ 23h-24h }, esc_playlist)
+])
+
 radio = fallback([shoutouts, jingles, requests, specials_playlist, alternate_playlist, main_playlist, default])
 livestream = input.harbor("live.ogg", port=8080, password=stream_password)
 full = fallback.skip(livestream, fallback=radio)
@@ -49,6 +84,15 @@ output.icecast(%mp3,
   host=stream_host, port=8000,
   password=stream_password,
   mount=stream_name, public=false, full)
+
+####### Test stream setup #######
+test_jingles = delay(300., playlist("/var/jingles/jingles.m3u", prefix="annotate:title=\"This is Radio LizardNet\",artist=\"Radio LizardNet\":"))
+test_radio = fallback([test_jingles, main_radio, default])
+
+output.icecast(%mp3,
+  host=stream_host, port=8000,
+  password=stream_password,
+  mount="test", public=false, test_radio)
 
 
 ####### Station radio setup #######

@@ -76,7 +76,7 @@ main_radio = switch([
   ({ 23h-24h }, esc_playlist)
 ])
 
-radio = fallback([shoutouts, jingles, requests, specials_playlist, alternate_playlist, main_playlist, default])
+radio = fallback([shoutouts, jingles, requests, main_radio, default])
 livestream = input.harbor("live.ogg", port=8080, password=stream_password)
 full = fallback.skip(livestream, fallback=radio)
 
@@ -84,16 +84,6 @@ output.icecast(%mp3,
   host=stream_host, port=8000,
   password=stream_password,
   mount=stream_name, public=false, full)
-
-####### Test stream setup #######
-test_jingles = delay(300., playlist("/var/jingles/jingles.m3u", prefix="annotate:title=\"This is Radio LizardNet\",artist=\"Radio LizardNet\":"))
-test_radio = fallback([test_jingles, main_radio, default])
-
-output.icecast(%mp3,
-  host=stream_host, port=8000,
-  password=stream_password,
-  mount="test", public=false, test_radio)
-
 
 ####### Station radio setup #######
 chillout_playlist = fallback([playlist("/var/playlists/chillout.m3u"), blank(duration=1.)])

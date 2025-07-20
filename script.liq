@@ -26,7 +26,7 @@ settings.server.telnet.bind_addr.set("0.0.0.0")
 settings.harbor.bind_addrs.set(["0.0.0.0"])
 
 # media configuration
-default = single("/var/music-local/partypioneers.mp3")
+default = blank(duration=1.)
 
 shoutouts = amplify(1.5, request.queue(id="shoutouts"))
 requests = request.queue(id="request",timeout=120.)
